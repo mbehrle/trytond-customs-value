@@ -63,7 +63,12 @@ class Product:
     def default_use_list_price_as_customs_value():
         return True
 
-    def get_customs_value_used(self, name):
-        if self.use_list_price_as_customs_value:
-            return self.list_price
-        return self.customs_value
+    @classmethod
+    def get_customs_value_used(cls, products, name):
+        return {
+            product.id: (
+                product.list_price if product.use_list_price_as_customs_value
+                else product.customs_value
+            )
+            for product in products
+        }
