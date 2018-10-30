@@ -50,10 +50,15 @@ class Product:
         "get_customs_description_used"
     )
 
-    def get_customs_description_used(self, name):
-        if self.use_name_as_customs_description:
-            return self.name
-        return self.customs_description
+    @classmethod
+    def get_customs_description_used(cls, products, name):
+        return {
+            product.id: (
+                product.name if product.use_name_as_customs_description else
+                product.customs_description
+            )
+            for product in products
+        }
 
     @staticmethod
     def default_use_name_as_customs_description():
